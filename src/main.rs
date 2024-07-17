@@ -1,5 +1,6 @@
 use std::convert::TryInto;
 use sha1::{Sha1, Digest};
+use std::time::Instant;
 
 fn left_rotate(value: u32, bits: u32) -> u32 {
     (value << bits) | (value >> (32 - bits))
@@ -77,13 +78,22 @@ fn sha11(input: &[u8]) -> String{
 
 
 fn main() {
+
     let data = b"Maks";
+    let start = Instant::now();
     let hash1 = sha11(data);
+    println!("{:?}", start.elapsed());
+
+
     //println!("{}", hash1);
-    let hash2 = Sha1::digest(data).iter()
+    let start = Instant::now();
+    let hash2 = Sha1::digest(data);
+    println!("{:?}", start.elapsed());
+    let hash2 = hash2.iter()
         .map(|&byte| format!("{:02x}", byte))
         .collect::<Vec<String>>()
         .join("");
+
     println!("{}\n{}", hash1, hash2);
 
 
